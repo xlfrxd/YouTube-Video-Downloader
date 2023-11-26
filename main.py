@@ -1,10 +1,9 @@
 from pytube import YouTube # YouTube API
-from sys import argv # Command line argument reader
-from tkinter import * # GUI Library
+from tkinter import StringVar
+import customtkinter # GUI Library from CustomTkinter by tomschimansky
+
 import ssl # SSL Certificate Verification
 
-# Disable SSL certificate verification
-ssl._create_default_https_context = ssl._create_unverified_context # Bypasses Certificate Verification Clearance
 
 def downloadVideo():
 
@@ -24,35 +23,50 @@ def downloadVideo():
 def updateStatus(updated_txt):
     statusLbl.configure(text=updated_txt)
 
+# Main Loop
+
+# Disable SSL certificate verification
+ssl._create_default_https_context = ssl._create_unverified_context # Bypasses Certificate Verification Clearance
+
 # Root window
-root = Tk()
+root = customtkinter.CTk()
+root.geometry("500x350")
+
+
+customtkinter.set_appearance_mode("system")
+customtkinter.set_default_color_theme("dark-blue")
 
 # Root Window Properties
 root.title("YouTube Video Downloader by xlfrxd")
 root.geometry('400x250')
 
+
+# Main Frame
+mainFrame = customtkinter.CTkFrame(master=root)
+mainFrame.grid()
+
 # Widgets
 
 # Title Label
-titleLbl = Label(root, text = "YouTube Video Downloader")
-titleLbl.grid(row=0,column=0)
+titleLbl = customtkinter.CTkLabel(mainFrame, text = "YouTube Video Downloader")
+titleLbl.grid(row=0,column=1)
 
 # Link Label
-linkLbl = Label(root, text = "Link: ")
+linkLbl = customtkinter.CTkLabel(mainFrame, text = "Link: ")
 linkLbl.grid(row=1,column=0)
 
 # Link Textbox
 link_var = StringVar()
-linkEntry = Entry(root, textvariable=link_var)
+linkEntry = customtkinter.CTkEntry(mainFrame, textvariable=link_var)
 link_var.set("")
 linkEntry.grid(row=1,column=1)
 
 # Download Button
-downloadBtn = Button(root, text = "Download", command=downloadVideo)
+downloadBtn = customtkinter.CTkButton(mainFrame, text = "Download", command=downloadVideo)
 downloadBtn.grid(row=2, column=1)
 
 # Status Label
-statusLbl = Label(root, text = "")
+statusLbl = customtkinter.CTkLabel(mainFrame, text = "")
 statusLbl.grid(row=3,column=1)
 
 
