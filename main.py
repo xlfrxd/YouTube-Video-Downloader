@@ -3,10 +3,9 @@ from tkinter import StringVar
 import customtkinter # GUI Library from CustomTkinter by tomschimansky
 
 import ssl # SSL Certificate Verification
-
+import traceback # To print the error stack trace
 
 def downloadVideo(link):
-
     try:
         yt = YouTube(link)
 
@@ -15,9 +14,10 @@ def downloadVideo(link):
         yt.streams.get_highest_resolution().download("./videos")
 
         updateStatus("Download complete!")  
-    except:
+    except Exception as e:
         updateStatus("Download failed!")
-    
+        print("Error occurred:", e)  # Print error message to the terminal
+        traceback.print_exc()  # Print the full error stack trace
 
 def updateStatus(updated_txt):
     statusLbl.configure(text=updated_txt)
@@ -31,7 +31,6 @@ def downloadClicked():
 # Disable SSL certificate verification
 ssl._create_default_https_context = ssl._create_unverified_context # Bypasses Certificate Verification Clearance
 
-
 # Root 
 root = customtkinter.CTk()
 
@@ -43,12 +42,9 @@ customtkinter.set_default_color_theme("dark-blue")
 root.title("YouTube Video Downloader by xlfrxd")
 root.geometry('400x250')
 
-
-
 # Main Frame
 mainFrame = customtkinter.CTkFrame(master=root)
 mainFrame.pack(padx=0, pady=0, expand=True, fill="both")
-
 
 # Widgets
 
@@ -71,7 +67,6 @@ downloadBtn.pack(padx=5, pady=10, expand=True, fill="both")
 # Status Label
 statusLbl = customtkinter.CTkLabel(mainFrame, text = "")
 statusLbl.pack(padx=5, pady=10, expand=True, fill="both")
-
 
 # Start GUI
 root.mainloop()
